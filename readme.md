@@ -1,5 +1,7 @@
 # The fullstack guide to using AWS AppSync and MongoDB
 
+> NextJS, AWS CDK, AWS Amplify, JavaScript pipeline resolvers
+
 ![appsync with mongodb](./images/fullstack-appsync-mongodb.png)
 ![appsync with mongodb frontend](./images/fullstack-appsync-mongodb-frontend.png)
 
