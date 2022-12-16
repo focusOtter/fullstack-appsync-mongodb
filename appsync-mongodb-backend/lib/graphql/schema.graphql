@@ -4,7 +4,7 @@ type Schema {
 }
 
 type Query {
-	listApplicants(limit: Int): [Applicant]
+	listApplicants(limit: Int, skip: Int): [Applicant]
 }
 
 type Mutation {

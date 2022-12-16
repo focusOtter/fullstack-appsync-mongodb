@@ -86,3 +86,5 @@ Doing the following worked:
 ```js
 ctx.stash.applicantData = applicantData
 ```
+
+- I always thought that stashing the input was a big reason to use pipeline resolvers. But I'm noticing the input is available throughout the pipeline. My new thinking is that the stash is for stashing values midway (>2 functions). Either way, more guidance should be added to the docs.

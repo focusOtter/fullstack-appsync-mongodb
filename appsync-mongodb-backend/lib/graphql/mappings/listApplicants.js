@@ -2,7 +2,8 @@ import { util } from '@aws-appsync/utils'
 
 export function request(ctx) {
 	const secret = ctx.prev.result
-
+	const limit = ctx.args.limit ? ctx.args.limit : 100
+	const skip = ctx.args.skip ? ctx.args.skip : 0
 	return {
 		method: 'POST',
 		version: '2018-05-29',
@@ -18,6 +19,8 @@ export function request(ctx) {
 				dataSource: 'Cluster0',
 				database: 'applicationEmployment',
 				collection: 'employmentForm',
+				limit,
+				skip,
 			},
 		},
 	}
