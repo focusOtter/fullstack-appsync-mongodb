@@ -1,6 +1,7 @@
 # The fullstack guide to using AWS AppSync and MongoDB
 
 ![appsync with mongodb](./images/fullstack-appsync-mongodb.png)
+![appsync with mongodb frontend](./images/fullstack-appsync-mongodb-frontend.png)
 
 > This project is used in the following blog post:
 
