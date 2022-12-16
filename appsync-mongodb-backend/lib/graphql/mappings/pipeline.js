@@ -8,14 +8,14 @@ export function request(ctx) {
 			return {}
 		case 'addApplicant':
 			const applicantData = {
-				id: util.autoId,
+				id: util.autoId(),
 				createdAt: util.time.nowISO8601(),
 				updatedAt: util.time.nowISO8601(),
 				...ctx.args.input,
 			}
 			console.log(ctx.args.input)
 			console.log(applicantData)
-			ctx.stash = { applicantData }
+			ctx.stash.applicantData = applicantData
 			return {}
 		default:
 			return {}

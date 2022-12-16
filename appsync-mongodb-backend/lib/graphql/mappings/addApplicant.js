@@ -3,11 +3,11 @@ import { util } from '@aws-appsync/utils'
 export function request(ctx) {
 	const secret = ctx.prev.result
 	const document = ctx.stash.applicantData
-
+	console.log('the document', document)
 	return {
 		method: 'POST',
 		version: '2018-05-29',
-		resourcePath: '/app/data-upuof/endpoint/data/v1/action/find',
+		resourcePath: '/app/data-upuof/endpoint/data/v1/action/insertOne',
 		params: {
 			headers: {
 				'api-key': secret,
@@ -30,10 +30,7 @@ export function response(ctx) {
 
 	// https://www.mongodb.com/docs/atlas/api/data-api-resources/#response-2
 	if (res.insertedId) {
-		return {
-			...ctx.stash.applicantData,
-			id: res.insertedId,
-		}
+		return ctx.stash.applicantData
 	} else {
 		util.error('record failed to be inserted')
 	}
