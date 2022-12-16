@@ -8,7 +8,7 @@ type Query {
 }
 
 type Mutation {
-	addApplicant(input: ApplicantInput): Applicant
+	addApplicant(input: ApplicantInput!): Applicant
 }
 
 type Applicant {
@@ -24,12 +24,13 @@ type Applicant {
 }
 
 input ApplicantInput {
-	name: String
-	email: AWSEmail
-	phoneNumber: AWSPhone
-	employmentStatus: EMPLOYMENT_STATUS_ENUM
-	startDate: AWSDate
-	focusArea: FOCUS_AREA_ENUM
+	id: ID
+	name: String!
+	email: AWSEmail!
+	phoneNumber: AWSPhone!
+	employmentStatus: EMPLOYMENT_STATUS_ENUM!
+	startDate: AWSDate!
+	focusArea: FOCUS_AREA_ENUM!
 }
 
 enum EMPLOYMENT_STATUS_ENUM {

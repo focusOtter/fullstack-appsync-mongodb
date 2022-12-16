@@ -50,3 +50,11 @@ switch (ctx.info.fieldName) {
 - Still in the console, I ran my query and had an error. but it only said `code.js:6:17: ReferenceError: variable is not defined`. I went to CloudWatch, but there was no log group. I was able to enable logging, but considering how much frontend devs love using `console.log`, this option should be more discoverable in the early stages of creating the API.
 - The console can't be used to interact with internal AWS services(?) ie Secrets Manager. This seems like a pretty big limitation considering we are pushing direct integrations.
 - In VS Code, using the AWS Toolkit extension allows me to view cloudwatch logs.
+- I tried to add a Mutation but forgot to specify the mapping template. When I deployed, I got an error that reference "DeepDish": 12:53:37 AM | CREATE_FAILED |
+  AWS::AppSync::FunctionConfiguration |
+  addApplicantFunctionFED72D3B
+  Request mapping template not specifie
+  d. (Service: AmazonDeepdish; Status C
+  ode: 400; Error Code: BadRequestExcep
+  tion; Request ID: b05197ec-4cc5-4ac7-
+  be62-de2bd40bb079; Proxy: null)

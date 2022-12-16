@@ -7,8 +7,15 @@ export function request(ctx) {
 		case 'listApplicants':
 			return {}
 		case 'addApplicant':
+			const applicantData = {
+				id: util.autoId,
+				createdAt: util.time.nowISO8601(),
+				updatedAt: util.time.nowISO8601(),
+				...ctx.args.input,
+			}
 			console.log(ctx.args.input)
-			ctx.stash = { applicantData: ctx.args.input }
+			console.log(applicantData)
+			ctx.stash = { applicantData }
 			return {}
 		default:
 			return {}

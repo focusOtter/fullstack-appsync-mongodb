@@ -2,6 +2,7 @@ import { util } from '@aws-appsync/utils'
 
 export function request(ctx) {
 	const secret = ctx.prev.result
+	const document = ctx.stash.applicantData
 
 	return {
 		method: 'POST',
@@ -18,13 +19,22 @@ export function request(ctx) {
 				dataSource: 'Cluster0',
 				database: 'applicationEmployment',
 				collection: 'employmentForm',
+				document,
 			},
 		},
 	}
 }
 
 export function response(ctx) {
-	console.log(ctx.result.body)
-	const records = JSON.parse(ctx.result.body).documents
-	return records
+	const res = JSON.parse(ctx.result.body)
+
+	// https://www.mongodb.com/docs/atlas/api/data-api-resources/#response-2
+	if (res.insertedId) {
+		return {
+			...ctx.stash.applicantData,
+			id: res.insertedId,
+		}
+	} else {
+		util.error('record failed to be inserted')
+	}
 }

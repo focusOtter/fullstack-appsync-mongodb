@@ -110,28 +110,28 @@ export class AppsyncMongoStack extends cdk.Stack {
 
 		////////////////////
 		// Create a function that will add an Applicant to MongoDB
-		// const addApplicantFunction = new appsync.AppsyncFunction(
-		// 	this,
-		// 	'addApplicantFunction',
-		// 	{
-		// 		api,
-		// 		dataSource: mongoDataAPIDS,
-		// 		name: 'addApplicantFunction',
-		// 	}
-		// )
+		const addApplicantFunction = new appsync.AppsyncFunction(
+			this,
+			'addApplicantFunction',
+			{
+				api,
+				dataSource: mongoDataAPIDS,
+				name: 'addApplicantFunction',
+			}
+		)
 
-		// // Escape hatch to access L1 construct
-		// const cfnAddApplicantFunction = getMongoSecretFunc.node
-		// 	.defaultChild as CfnFunctionConfiguration
+		// Escape hatch to access L1 construct
+		const cfnAddApplicantFunction = addApplicantFunction.node
+			.defaultChild as CfnFunctionConfiguration
 
-		// cfnAddApplicantFunction.runtime = {
-		// 	name: 'APPSYNC_JS',
-		// 	runtimeVersion: '1.0.0',
-		// }
-		// cfnGetMongoSecretFunc.code = readFileSync(
-		// 	'./graphql/mappings/Mutation.listRooms.js',
-		// 	'utf-8'
-		// )
+		cfnAddApplicantFunction.runtime = {
+			name: 'APPSYNC_JS',
+			runtimeVersion: '1.0.0',
+		}
+		cfnAddApplicantFunction.code = readFileSync(
+			path.join(__dirname, '/graphql/mappings/addApplicant.js'),
+			'utf-8'
+		)
 		///////////////
 
 		// Create a pipeline that has a "before" and "after" step + our fns
@@ -162,29 +162,29 @@ export class AppsyncMongoStack extends cdk.Stack {
 		///////////////////
 
 		// Create a pipeline that has a "before" and "after" step + our fns
-		// const addApplicantPipelineResolver = new appsync.Resolver(
-		// 	this,
-		// 	'addApplicantPipelineResolver',
-		// 	{
-		// 		api,
-		// 		typeName: 'Mutation',
-		// 		fieldName: 'addApplicant',
-		// 		pipelineConfig: [getMongoSecretFunc, addApplicantFunction],
-		// 	}
-		// )
+		const addApplicantPipelineResolver = new appsync.Resolver(
+			this,
+			'addApplicantPipelineResolver',
+			{
+				api,
+				typeName: 'Mutation',
+				fieldName: 'addApplicant',
+				pipelineConfig: [getMongoSecretFunc, addApplicantFunction],
+			}
+		)
 
-		// // Escape hatch to access L1 construct
-		// const cfnAddApplicantPipelineResolver = addApplicantPipelineResolver.node
-		// 	.defaultChild as CfnResolver
+		// Escape hatch to access L1 construct
+		const cfnAddApplicantPipelineResolver = addApplicantPipelineResolver.node
+			.defaultChild as CfnResolver
 
-		// cfnAddApplicantPipelineResolver.runtime = {
-		// 	name: 'APPSYNC_JS',
-		// 	runtimeVersion: '1.0.0',
-		// }
-		// cfnGetMongoSecretFunc.code = readFileSync(
-		// 	'./graphql/mappings/Mutation.listRooms.js',
-		// 	'utf-8'
-		// )
+		cfnAddApplicantPipelineResolver.runtime = {
+			name: 'APPSYNC_JS',
+			runtimeVersion: '1.0.0',
+		}
+		cfnAddApplicantPipelineResolver.code = readFileSync(
+			path.join(__dirname, '/graphql/mappings/pipeline.js'),
+			'utf-8'
+		)
 
 		//////////////////////////
 		new cdk.CfnOutput(this, 'appsync api key', {
