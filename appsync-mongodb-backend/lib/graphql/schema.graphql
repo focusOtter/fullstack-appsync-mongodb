@@ -16,9 +16,9 @@ type Applicant {
 	name: String
 	email: AWSEmail
 	phoneNumber: AWSPhone
-	employmentStatus: EmploymentEnum
+	employmentStatus: EMPLOYMENT_STATUS_ENUM
 	startDate: AWSDate
-	focusArea: FocusAreaEnum
+	focusArea: FOCUS_AREA_ENUM
 	createdAt: AWSDateTime
 	updatedAt: AWSDateTime
 }
@@ -27,17 +27,17 @@ input ApplicantInput {
 	name: String
 	email: AWSEmail
 	phoneNumber: AWSPhone
-	employmentStatus: EmploymentEnum
+	employmentStatus: EMPLOYMENT_STATUS_ENUM
 	startDate: AWSDate
-	focusArea: FocusAreaEnum
+	focusArea: FOCUS_AREA_ENUM
 }
 
-enum employmentStatusEnum {
-	Employed
-	Unemployed
+enum EMPLOYMENT_STATUS_ENUM {
+	EMPLOYED
+	UNEMPLOYED
 }
 
-enum FocusAreaEnum {
-	Frontend
-	Backend
+enum FOCUS_AREA_ENUM {
+	FRONTEND
+	BACKEND
 }

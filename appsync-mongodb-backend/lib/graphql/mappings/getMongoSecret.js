@@ -1,6 +1,7 @@
 import { util } from '@aws-appsync/utils'
 
 export function request(ctx) {
+	console.log('this is the context', ctx)
 	return {
 		method: 'POST',
 		version: '2018-05-29',
@@ -18,6 +19,8 @@ export function request(ctx) {
 }
 
 export function response(ctx) {
+	console.log('this is the response', ctx)
+	//"{Name: 'APPSYNC_MONGO_API_KEY', SecretString: 'abc123'}"
 	const result = JSON.parse(ctx.result.body).SecretString
 	console.log(result)
 	return result

@@ -1,4 +1,4 @@
-import { util, Context } from '@aws-appsync/utils'
+import { util } from '@aws-appsync/utils'
 
 export function request(ctx) {
 	console.log(ctx.info)
@@ -8,7 +8,7 @@ export function request(ctx) {
 			return {}
 		case 'addApplicant':
 			console.log(ctx.args.input)
-			ctx.stash.put('applicantData', ctx.args.input)
+			ctx.stash = { applicantData: ctx.args.input }
 			return {}
 		default:
 			return {}

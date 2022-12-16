@@ -76,8 +76,9 @@ export class AppsyncMongoStack extends cdk.Stack {
 			name: 'APPSYNC_JS',
 			runtimeVersion: '1.0.0',
 		}
+
 		cfnGetMongoSecretFunc.code = readFileSync(
-			'./graphql/mappings/getMongoSecret.js',
+			path.join(__dirname, '/graphql/mappings/getMongoSecret.js'),
 			'utf-8'
 		)
 
@@ -95,7 +96,7 @@ export class AppsyncMongoStack extends cdk.Stack {
 		)
 
 		// Escape hatch to access L1 construct
-		const cfnListApplicantsFunction = getMongoSecretFunc.node
+		const cfnListApplicantsFunction = listApplicantsFunction.node
 			.defaultChild as CfnFunctionConfiguration
 
 		cfnListApplicantsFunction.runtime = {
@@ -103,34 +104,34 @@ export class AppsyncMongoStack extends cdk.Stack {
 			runtimeVersion: '1.0.0',
 		}
 		cfnListApplicantsFunction.code = readFileSync(
-			'./graphql/mappings/listApplicants.js',
+			path.join(__dirname, '/graphql/mappings/listApplicants.js'),
 			'utf-8'
 		)
 
 		////////////////////
 		// Create a function that will add an Applicant to MongoDB
-		const addApplicantFunction = new appsync.AppsyncFunction(
-			this,
-			'addApplicantFunction',
-			{
-				api,
-				dataSource: mongoDataAPIDS,
-				name: 'addApplicantFunction',
-			}
-		)
+		// const addApplicantFunction = new appsync.AppsyncFunction(
+		// 	this,
+		// 	'addApplicantFunction',
+		// 	{
+		// 		api,
+		// 		dataSource: mongoDataAPIDS,
+		// 		name: 'addApplicantFunction',
+		// 	}
+		// )
 
-		// Escape hatch to access L1 construct
-		const cfnAddApplicantFunction = getMongoSecretFunc.node
-			.defaultChild as CfnFunctionConfiguration
+		// // Escape hatch to access L1 construct
+		// const cfnAddApplicantFunction = getMongoSecretFunc.node
+		// 	.defaultChild as CfnFunctionConfiguration
 
-		cfnAddApplicantFunction.runtime = {
-			name: 'APPSYNC_JS',
-			runtimeVersion: '1.0.0',
-		}
-		cfnGetMongoSecretFunc.code = readFileSync(
-			'./graphql/mappings/Mutation.listRooms.js',
-			'utf-8'
-		)
+		// cfnAddApplicantFunction.runtime = {
+		// 	name: 'APPSYNC_JS',
+		// 	runtimeVersion: '1.0.0',
+		// }
+		// cfnGetMongoSecretFunc.code = readFileSync(
+		// 	'./graphql/mappings/Mutation.listRooms.js',
+		// 	'utf-8'
+		// )
 		///////////////
 
 		// Create a pipeline that has a "before" and "after" step + our fns
@@ -153,8 +154,8 @@ export class AppsyncMongoStack extends cdk.Stack {
 			name: 'APPSYNC_JS',
 			runtimeVersion: '1.0.0',
 		}
-		cfnGetMongoSecretFunc.code = readFileSync(
-			'./graphql/mappings/Mutation.listRooms.js',
+		cfnListApplicantsPipelineResolver.code = readFileSync(
+			path.join(__dirname, '/graphql/mappings/pipeline.js'),
 			'utf-8'
 		)
 
@@ -192,6 +193,10 @@ export class AppsyncMongoStack extends cdk.Stack {
 
 		new cdk.CfnOutput(this, 'appsync endpoint', {
 			value: api.graphqlUrl,
+		})
+
+		new cdk.CfnOutput(this, 'appsync apiId', {
+			value: api.apiId,
 		})
 	}
 }
