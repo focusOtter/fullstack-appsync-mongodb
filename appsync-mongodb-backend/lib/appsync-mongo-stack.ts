@@ -6,8 +6,11 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { CfnFunctionConfiguration, CfnResolver } from 'aws-cdk-lib/aws-appsync'
 import { readFileSync } from 'fs'
 
+interface AppsyncMongoStackProps extends cdk.StackProps {
+	MONGO_SECRET_ARN: string
+}
 export class AppsyncMongoStack extends cdk.Stack {
-	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+	constructor(scope: Construct, id: string, props: AppsyncMongoStackProps) {
 		super(scope, id, props)
 
 		//create our API
@@ -32,10 +35,10 @@ export class AppsyncMongoStack extends cdk.Stack {
 		// Secrets Manager
 		const secretsManagerDS = api.addHttpDataSource(
 			'secretsManager',
-			'https://secretsmanager.us-east-1.amazonaws.com',
+			`https://secretsmanager.${process.env.CDK_DEFAULT_REGION}.amazonaws.com`,
 			{
 				authorizationConfig: {
-					signingRegion: 'us-east-1',
+					signingRegion: `${process.env.CDK_DEFAULT_REGION}`,
 					signingServiceName: 'secretsmanager',
 				},
 			}
@@ -50,9 +53,7 @@ export class AppsyncMongoStack extends cdk.Stack {
 		// policy to permit an http datasource to get a secret in Secrets Manager
 		secretsManagerDS.grantPrincipal.addToPrincipalPolicy(
 			new PolicyStatement({
-				resources: [
-					`arn:aws:secretsmanager:us-east-1:${process.env.CDK_DEFAULT_ACCOUNT}:secret:APPSYNC_MONGO_API_KEY-xAUsuN`,
-				],
+				resources: [props.MONGO_SECRET_ARN],
 				actions: ['secretsmanager:GetSecretValue'],
 			})
 		)
