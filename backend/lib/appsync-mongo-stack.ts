@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
-import * as appsync from '@aws-cdk/aws-appsync-alpha'
 import * as path from 'path'
+import * as appsync from 'aws-cdk-lib/aws-appsync'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { CfnFunctionConfiguration, CfnResolver } from 'aws-cdk-lib/aws-appsync'
 import { readFileSync } from 'fs'
@@ -66,21 +66,11 @@ export class AppsyncMongoStack extends cdk.Stack {
 				api,
 				dataSource: secretsManagerDS,
 				name: 'getMongoSecretFromSSM',
+				code: appsync.Code.fromAsset(
+					path.join(__dirname, '/graphql/mappings/getMongoSecret.js')
+				),
+				runtime: appsync.FunctionRuntime.JS_1_0_0,
 			}
-		)
-
-		// Escape hatch to access L1 construct
-		const cfnGetMongoSecretFunc = getMongoSecretFunc.node
-			.defaultChild as CfnFunctionConfiguration
-
-		cfnGetMongoSecretFunc.runtime = {
-			name: 'APPSYNC_JS',
-			runtimeVersion: '1.0.0',
-		}
-
-		cfnGetMongoSecretFunc.code = readFileSync(
-			path.join(__dirname, '/graphql/mappings/getMongoSecret.js'),
-			'utf-8'
 		)
 
 		////////////////
@@ -93,20 +83,11 @@ export class AppsyncMongoStack extends cdk.Stack {
 				api,
 				dataSource: mongoDataAPIDS,
 				name: 'listApplicantsFunction',
+				code: appsync.Code.fromAsset(
+					path.join(__dirname, '/graphql/mappings/listApplicants.js')
+				),
+				runtime: appsync.FunctionRuntime.JS_1_0_0,
 			}
-		)
-
-		// Escape hatch to access L1 construct
-		const cfnListApplicantsFunction = listApplicantsFunction.node
-			.defaultChild as CfnFunctionConfiguration
-
-		cfnListApplicantsFunction.runtime = {
-			name: 'APPSYNC_JS',
-			runtimeVersion: '1.0.0',
-		}
-		cfnListApplicantsFunction.code = readFileSync(
-			path.join(__dirname, '/graphql/mappings/listApplicants.js'),
-			'utf-8'
 		)
 
 		////////////////////
@@ -118,20 +99,11 @@ export class AppsyncMongoStack extends cdk.Stack {
 				api,
 				dataSource: mongoDataAPIDS,
 				name: 'addApplicantFunction',
+				code: appsync.Code.fromAsset(
+					path.join(__dirname, '/graphql/mappings/addApplicant.js')
+				),
+				runtime: appsync.FunctionRuntime.JS_1_0_0,
 			}
-		)
-
-		// Escape hatch to access L1 construct
-		const cfnAddApplicantFunction = addApplicantFunction.node
-			.defaultChild as CfnFunctionConfiguration
-
-		cfnAddApplicantFunction.runtime = {
-			name: 'APPSYNC_JS',
-			runtimeVersion: '1.0.0',
-		}
-		cfnAddApplicantFunction.code = readFileSync(
-			path.join(__dirname, '/graphql/mappings/addApplicant.js'),
-			'utf-8'
 		)
 		///////////////
 
@@ -143,21 +115,12 @@ export class AppsyncMongoStack extends cdk.Stack {
 				api,
 				typeName: 'Query',
 				fieldName: 'listApplicants',
+				runtime: appsync.FunctionRuntime.JS_1_0_0,
+				code: appsync.Code.fromAsset(
+					path.join(__dirname, '/graphql/mappings/pipeline.js')
+				),
 				pipelineConfig: [getMongoSecretFunc, listApplicantsFunction],
 			}
-		)
-
-		// Escape hatch to access L1 construct
-		const cfnListApplicantsPipelineResolver = listApplicantsPipelineResolver
-			.node.defaultChild as CfnResolver
-
-		cfnListApplicantsPipelineResolver.runtime = {
-			name: 'APPSYNC_JS',
-			runtimeVersion: '1.0.0',
-		}
-		cfnListApplicantsPipelineResolver.code = readFileSync(
-			path.join(__dirname, '/graphql/mappings/pipeline.js'),
-			'utf-8'
 		)
 
 		///////////////////
@@ -170,21 +133,12 @@ export class AppsyncMongoStack extends cdk.Stack {
 				api,
 				typeName: 'Mutation',
 				fieldName: 'addApplicant',
+				runtime: appsync.FunctionRuntime.JS_1_0_0,
+				code: appsync.Code.fromAsset(
+					path.join(__dirname, '/graphql/mappings/pipeline.js')
+				),
 				pipelineConfig: [getMongoSecretFunc, addApplicantFunction],
 			}
-		)
-
-		// Escape hatch to access L1 construct
-		const cfnAddApplicantPipelineResolver = addApplicantPipelineResolver.node
-			.defaultChild as CfnResolver
-
-		cfnAddApplicantPipelineResolver.runtime = {
-			name: 'APPSYNC_JS',
-			runtimeVersion: '1.0.0',
-		}
-		cfnAddApplicantPipelineResolver.code = readFileSync(
-			path.join(__dirname, '/graphql/mappings/pipeline.js'),
-			'utf-8'
 		)
 
 		//////////////////////////

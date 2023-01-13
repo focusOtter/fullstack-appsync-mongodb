@@ -1,6 +1,6 @@
 {
 	"eslint.workingDirectories": [
-		{ "pattern": "appsync-mongodb-backend/*/" },
-		{ "pattern": "nextjs-amplify-frontend/*/" }
+		{ "pattern": "backend/*/" },
+		{ "pattern": "frontend/*/" }
 	]
 }
