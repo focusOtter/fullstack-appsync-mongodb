@@ -11,9 +11,9 @@ This repo is made up of two projects. A frontend, and a backend.
 
 ## Backend Overview
 
-Using AWS AppSync's pipeline resolvers (written in JavaScript), a request is made to AWS Secrets Manager. This request grabs the API Key needed for MongoDB. Once successfull, an API request is made to MongoDB.
+Using AWS AppSync's pipeline resolvers (written in JavaScript), a request is made to AWS Secrets Manager. This request grabs the API Key needed for MongoDB. Once successful, an API request is made to MongoDB.
 
-The backend services are provisioned using the CDK. Currently, the L2 constructs available for AppSync are in preview and don't yet support JavaScript resolvers. To accomplish this, I use an escape hatch to drop down to the L1 construct. This results in the parts of the code being a bit verbose:
+The backend services are provisioned using the CDK. Currently, the L2 constructs available for AppSync are in preview and don't yet support JavaScript resolvers. To accomplish this, I use an escape hatch to drop down to the L1 construct. This results in parts of the code being a bit verbose:
 
 ```js
 // Create a function that gets the secret
@@ -63,13 +63,13 @@ npm install
 
 To deploy the backend solution,
 
-Add a your MongoDB API key to AWS Secrets Manager (refer to blog post for instructions if unfamiliar). Once done, in the `bin` directory of this the backend project, change the value for the `MONGO_SECRET_ARN` to be the ARN of your your secret.
+Add your MongoDB API key to AWS Secrets Manager (refer to blog post for instructions if unfamiliar). Once done, in the `bin` directory of the backend project, change the value for the `MONGO_SECRET_ARN` to be the ARN of your secret.
 
 Once done, run the following command:
 
 `npx aws-cdk deploy`
 
-This will synthensize your resources down to cloudformation, build your assets, and deploy the project to AWS.
+This will synthesize your resources down to cloudformation, build your assets, and deploy the project to AWS.
 
 For the frontend, once installed, run the command:
 
@@ -77,7 +77,7 @@ For the frontend, once installed, run the command:
 npm run dev
 ```
 
-This will run the project locally. To host this appliation on the web, refer to the Amplify Hosting docs or my previous post on [deploying a NextJS application with the CDK](https://aws.amazon.com/blogs/mobile/deploy-a-nextjs-13-application-to-amplify-with-the-aws-cdk/)
+This will run the project locally. To host this application on the web, refer to the Amplify Hosting docs or my previous post on [deploying a NextJS application with the CDK](https://aws.amazon.com/blogs/mobile/deploy-a-nextjs-13-application-to-amplify-with-the-aws-cdk/)
 
 ## Extras
 
@@ -85,4 +85,4 @@ This repo also contains a query to list all the applicants in a MongoDB Cluster.
 
 ## Contributing
 
-Definitely feel free to file issue before submitting a PR to make sure work isn't duplicated.
+Definitely feel free to file an issue before submitting a PR to make sure work isn't duplicated.
